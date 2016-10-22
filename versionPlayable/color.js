@@ -1,22 +1,14 @@
 var b = document.querySelector('.game');
-var form = document.querySelector('#form');
-var correctness =1;
+var strip = document.querySelector('.stripe')
+var correctness = 1;
+var isSuc = 2;
 
-// form.addEventListener('submit',);
-
-function gen() {
-    var val = document.querySelector('#inp').value;
-    generate(val);
-}
-
-function corrGuess() {
-    alert("Clicked on the correct thing!!!");
-}
-
-
+body.style.background = "pink";
+b.addEventListener("load", generate(2));
 
 function generate(num) {
     b.innerHTML = '';
+    strip.style.background = "pink";
     for (i = 0; i < num; i++) {
         var division = document.createElement('div');
         division.setAttribute('class', 'square');
@@ -25,15 +17,25 @@ function generate(num) {
     a = color();
     correctness = a[correct(a)];
     console.log(correctness);
-    for (i = 0; i < a.length-1; i++) {
+    for (i = 0; i < a.length; i++) {
         if (a[i] != correctness) {
             a[i].addEventListener('click', function() {
-                this.style.background = "white";
+                this.style.background = body.style.background;
             })
         }
     }
     correctness.addEventListener("click", function() {
-        b.style.background = correctness.style.background;
+        strip.style.background = correctness.style.background;
+        for (i = 0; i < a.length; i++) {
+            a[i].style.background = correctness.style.background;
+        }
+        setTimeout(function() {
+            if (isSuc < 9) {
+                generate(++isSuc);
+            }
+
+        },2500)
+
     });
     document.querySelector('#colorid').innerHTML = correctness.style.background;
 
@@ -41,9 +43,6 @@ function generate(num) {
 
 }
 
-function reset(count) {
-
-}
 
 function genColor(num) {
     var arr = []
